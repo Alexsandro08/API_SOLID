@@ -1,16 +1,20 @@
-import { expect, describe, it} from 'vitest'
+import { expect, describe, it, beforeEach} from 'vitest'
 import { InMemoryRepository } from '@/repositories/in-memory/in-memory-users-repository'
 import { AuthenticateUseCase } from './authenticate'
 import { hash } from 'bcryptjs'
 import { InvalidCredentialsError } from './err/invalid-credentials-error'
 
 
+let usersRepository: InMemoryRepository
+let sut: AuthenticateUseCase
+
 describe('Authenticate use case', ()=>{
+    beforeEach(()=>{
+        usersRepository = new InMemoryRepository()
+        sut = new AuthenticateUseCase(usersRepository)
+    })
 
     it('should be able to authenticate', async ()=>{
-        const usersRepository = new InMemoryRepository()
-        const sut = new AuthenticateUseCase(usersRepository)
-
         await usersRepository.create({
             name: 'Alex Edu',
             email: 'fulano@example.com',
@@ -21,25 +25,18 @@ describe('Authenticate use case', ()=>{
             email: 'fulano@example.com',
             password: '123456'
         })
-
+        
         expect(user.id).toEqual(expect.any(String))
     })
 
     it('should not be able to authenticate with wrong email', async ()=>{
-        const usersRepository = new InMemoryRepository()
-        const sut = new AuthenticateUseCase(usersRepository)
-        
         expect(()=> sut.execute({
             email: 'fulano@example.com',
             password: '123456'
         })).rejects.toBeInstanceOf(InvalidCredentialsError)
-
     })
 
     it('should not be able to authenticate with wrong password', async ()=>{
-        const usersRepository = new InMemoryRepository()
-        const sut = new AuthenticateUseCase(usersRepository)
-
         await usersRepository.create({
             name: 'Alex Edu',
             email: 'fulano@example.com',
@@ -50,7 +47,5 @@ describe('Authenticate use case', ()=>{
             email: 'fulano@example.com',
             password: '654321'
         })).rejects.toBeInstanceOf(InvalidCredentialsError)
-
     })
- 
 })
