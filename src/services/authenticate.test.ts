@@ -1,16 +1,16 @@
 import { expect, describe, it, beforeEach} from 'vitest'
-import { InMemoryRepository } from '@/repositories/in-memory/in-memory-users-repository'
+import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
 import { AuthenticateUseCase } from './authenticate'
 import { hash } from 'bcryptjs'
 import { InvalidCredentialsError } from './err/invalid-credentials-error'
 
 
-let usersRepository: InMemoryRepository
+let usersRepository: InMemoryUsersRepository
 let sut: AuthenticateUseCase
 
 describe('Authenticate use case', ()=>{
     beforeEach(()=>{
-        usersRepository = new InMemoryRepository()
+        usersRepository = new InMemoryUsersRepository()
         sut = new AuthenticateUseCase(usersRepository)
     })
 
@@ -30,7 +30,7 @@ describe('Authenticate use case', ()=>{
     })
 
     it('should not be able to authenticate with wrong email', async ()=>{
-        expect(()=> sut.execute({
+        await expect(()=> sut.execute({
             email: 'fulano@example.com',
             password: '123456'
         })).rejects.toBeInstanceOf(InvalidCredentialsError)
@@ -43,7 +43,7 @@ describe('Authenticate use case', ()=>{
             password_hash: await hash('123456', 6)
         })
         
-        expect(()=> sut.execute({
+        await expect(()=> sut.execute({
             email: 'fulano@example.com',
             password: '654321'
         })).rejects.toBeInstanceOf(InvalidCredentialsError)
