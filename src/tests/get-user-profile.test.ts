@@ -1,8 +1,8 @@
 import { expect, describe, it, beforeEach} from 'vitest'
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
 import { hash } from 'bcryptjs'
-import { GetUserProfile } from './get-user-profile'
-import { ResourceNotExits } from './err/resource-not-exists'
+import { GetUserProfile } from '../services/get-user-profile'
+import { ResourceNotExits } from '../services/err/resource-not-exists'
 
 
 let usersRepository: InMemoryUsersRepository
