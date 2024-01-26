@@ -15,12 +15,12 @@ describe('Check-in use case', ()=>{
         sut = new CheckInUseCase(checkInsRepository, gymsRepository)
 
         gymsRepository.items.push({
-            id: 'user-01',
+            id: 'gym-01',
             title: 'TypeScript Gym',
             description: '',
             phone: '',
-            latitude: new Decimal(0),
-            longitude: new Decimal(0)
+            latitude: new Decimal(-7.1827456),
+            longitude: new Decimal(-35.7302272)
         })
 
         vi.useFakeTimers()
@@ -34,7 +34,7 @@ describe('Check-in use case', ()=>{
        
         const { checkIn } =  await sut.execute({
             userId: 'user-01',
-            gymId: 'user-01',
+            gymId: 'gym-01',
             userLatitude: -7.1827456,
             userLongitude: -35.7302272
         })
@@ -49,14 +49,14 @@ describe('Check-in use case', ()=>{
 
         await sut.execute({
             userId: 'user-01',
-            gymId: 'user-01',
+            gymId: 'gym-01',
             userLatitude: -7.1827456,
             userLongitude: -35.7302272
         })
 
         await expect(sut.execute({
             userId: 'user-01',
-            gymId: 'user-01',
+            gymId: 'gym-01',
             userLatitude: -7.1827456,
             userLongitude: -35.7302272
         })).rejects.toBeInstanceOf(Error)        
@@ -67,7 +67,7 @@ describe('Check-in use case', ()=>{
 
         await sut.execute({
             userId: 'user-01',
-            gymId: 'user-01',
+            gymId: 'gym-01',
             userLatitude: -7.1827456,
             userLongitude: -35.7302272
         })
@@ -76,7 +76,7 @@ describe('Check-in use case', ()=>{
 
         const { checkIn } = await sut.execute({
             userId: 'user-01',
-            gymId: 'user-01',
+            gymId: 'gym-01',
             userLatitude: -7.1827456,
             userLongitude: -35.7302272
         })
@@ -84,5 +84,24 @@ describe('Check-in use case', ()=>{
         expect(checkIn.id).toEqual(expect.any(String))
 
     })
+
+    it('should not be able to check in on distant gym', async ()=>{
+
+        gymsRepository.items.push({
+            id: 'gym-2',
+            title: 'TypeScript Gym',
+            description: '',
+            phone: '',
+            latitude: new Decimal(-6.886557),
+            longitude: new Decimal(-36.0077791)
+        })
     
+
+        await expect(()=> sut.execute({
+            userId: 'user-01',
+            gymId: 'gym-02',
+            userLatitude: -7.1827456,
+            userLongitude: -35.7302272
+        })).rejects.toBeInstanceOf(Error)
+    })
 })
