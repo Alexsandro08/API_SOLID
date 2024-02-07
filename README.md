@@ -12,7 +12,7 @@ GymPass style app.
 - [x] Deve ser possível o usuário buscar academias próximas (até 10km);
 - [x] Deve ser possível o usário buscar academias pelo nome;
 - [x] Deve ser possível o usário realizar check-in em uma academia;
-- [ ] Deve ser possível validar o check-in de um usuário;
+- [x] Deve ser possível validar o check-in de um usuário;
 - [x] Deve ser possível cadastrar uma academia;
 
 ## RFs ( Regras de negócio )
@@ -20,12 +20,12 @@ GymPass style app.
 - [x] O usuário não deve poder se cadastrar com um email duplicado;
 - [x] O usuário não pode fazer 2 check-ins no mesmo dia;
 - [x] O usuário não pode fazer check-in se não estiver perto (100m) da academia;
-- [ ] O check-in só pode ser validado até 20 min após criado;
+- [x] O check-in só pode ser validado até 20 min após criado;
 - [ ] O check-in só pode ser validado por administradores;
 - [ ] A academia só pode ser cadastrada por administradores;
 
 
-## RNFs( Requisitos não funcionais )
+## RNFs ( Requisitos não funcionais )
 
 - [x] A senha do usuário precisa estar criptografada;
 - [x] Os dados da aplicacao precisam estar persistidos em um banco PostgreSQL;
