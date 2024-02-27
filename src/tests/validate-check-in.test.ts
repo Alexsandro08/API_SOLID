@@ -1,6 +1,6 @@
 import { expect, describe, it, beforeEach, afterEach, vi } from 'vitest'
 import { InMemoryCheckInsRepository } from '@/repositories/in-memory/in-memory-check-ins-repository'
-import { ValidateCheckInUseCase } from '@/services/validate-checkin-in'
+import { ValidateCheckInUseCase } from '@/services/validate-check-in'
 import { ResourceNotExits } from '@/services/err/resource-not-exists'
 
 
